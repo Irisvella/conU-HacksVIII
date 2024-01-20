@@ -1,1 +1,2 @@
-print ("in error"
+print ("in error";;
+prnt (23))))
