@@ -3,6 +3,15 @@
 <head>
     <title>Sorted Images</title>
     <style>
+        body {
+            background-color: #f5f5dc; /* Cream color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
         .image-container {
             width: 100%;
             text-align: center;
@@ -11,25 +20,37 @@
         img {
             max-width: 100%;
             height: auto;
-            display: none; /* Hide images initially */
         }
         .button-container {
             margin-top: 20px;
         }
+        input[type="button"], input[type="submit"], button {
+            background-color: white;
+            border: none;
+            border-radius: 50px;
+            color: black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <h1>Sorted Images</h1>
     <div class="image-container">
         {% for question, answer in sorted_pairs %}
-            <img src="{{ question }}" alt="Question Image" class="images">
-            <img src="{{ answer }}" alt="Answer Image" class="images">
+            <img src="{{ question }}" alt="Question Image" class="images" style="display: block; margin-left: auto; margin-right:auto;">
+            <img src="{{ answer }}" alt="Answer Image" class="images" style="display: block; margin-left: auto; margin-right:auto;">
         {% endfor %}
     </div>
 
     <div class="button-container">
         <button onclick="plusSlides(-1)">Previous</button>
         <button onclick="plusSlides(1)">Next</button>
+        <input type="button" value="Upload more images" onclick="window.location.href='/';">
     </div>
 
     <script>
