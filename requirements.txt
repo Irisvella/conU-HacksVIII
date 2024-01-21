@@ -1,2 +1,5 @@
 Pysa
 matlabengine
+flask 
+werkzeug.utils
+os
