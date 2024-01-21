@@ -12,9 +12,9 @@ app_ui = ui.page_fillable(
                                 ui.column(12, ui.card(
                                     # description or instructions
                                     ui.markdown("""
-                                                Make memorizing diagrams or maps a breeze!
+                                                <h4>Make memorizing diagrams or maps a breeze!</h4>
                                                 
-                                                Simply upload an image in .png, .jpeg, or .jpg format and start quizzing yourself
+                                                <h6>Simply upload an image in .png, .jpeg, or .jpg format and start quizzing yourself</h6>
                                                 """),
                                     # lets user upload files
                                     ui.input_file("inputImage", "Choose your diagram!", accept=[".png", ".jpeg", ".jpg"], multiple=False,
