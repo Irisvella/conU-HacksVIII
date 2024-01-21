@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+    <title>Sorted Images</title>
+    <style>
+        .image-container {
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: none; /* Hide images initially */
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sorted Images</h1>
+    <div class="image-container">
+        {% for question, answer in sorted_pairs %}
+            <img src="{{ question }}" alt="Question Image" class="images">
+            <img src="{{ answer }}" alt="Answer Image" class="images">
+        {% endfor %}
+    </div>
+
+    <div class="button-container">
+        <button onclick="plusSlides(-1)">Previous</button>
+        <button onclick="plusSlides(1)">Next</button>
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        showSlides(slideIndex);
+
+        // Next/previous controls
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("images");
+            if (n >= slides.length) {slideIndex = 0}
+            if (n < 0) {slideIndex = slides.length - 1}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex].style.display = "block";
+        }
+    </script>
+</body>
+</html>
