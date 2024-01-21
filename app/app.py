@@ -1,14 +1,24 @@
 from shiny import App, render, ui, reactive
+import asyncio
+from pathlib import Path
+
+# set image directory
+www_dir = Path(__file__).parent / "www"
 
 app_ui = ui.page_fillable(
+    {"style": "background-color: rgba(0, 128, 255, 0.1)"},
     ui.row(
-        ui.column(12, 
-            ui.card("Outer",
+        ui.column(12,
+            # outer perimiter
+            ui.card(
                 ui.row(
-                    ui.column(3,
-                        ui.card("Navbar",
+                    ui.column(3, 
+                        # navigation bar
+                        ui.card({"style": "background-color: #c1c6fc"},
                             ui.row(
-                                ui.column(12, ui.card("probably logo")),
+                                ui.column(12, ui.card(
+                                    ui.img(src="logo.png", )
+                                )),
                                 ui.column(12, ui.card(
                                     # description or instructions
                                     ui.markdown("""
@@ -28,10 +38,10 @@ app_ui = ui.page_fillable(
                         )
                     ),
                     ui.column(9,
-                              ui.card("top display", 
-                                      ui.output_text_verbatim("printout")),
-                              ui.card("main image"),
-                              ui.card("navigation buttons")
+                              ui.card(ui.card(
+                                        ui.output_text_verbatim("printout", placeholder=True))
+                                      )
+                                      
                               )
                                 
                 )
@@ -42,6 +52,7 @@ app_ui = ui.page_fillable(
 
 
 def server(input, output, session):
+    # will need to eventually replace with the matlab stuff
     @reactive.Calc
     def pathToMathlab():
         while type(input.inputImage) != 'NoneType':
@@ -52,10 +63,14 @@ def server(input, output, session):
     
     @output
     @render.text
-    def printout():
-        return input.inputImage()[0].get("datapath")
-        #return f'the temp path of the image is {pathToMathlab()}'
+    @reactive.event(input.submit)
+    async def printout():
+        input.submit()
+        await asyncio.sleep(1)
+
+        with reactive.isolate():
+            return input.inputImage()[0].get("datapath")
         
 
 
-app = App(app_ui, server)
+app = App(app_ui, server, static_assets=www_dir)
