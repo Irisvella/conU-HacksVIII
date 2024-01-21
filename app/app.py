@@ -1,6 +1,7 @@
 from shiny import App, render, ui, reactive
 import asyncio
 from pathlib import Path
+from engine import process
 
 # set image directory
 www_dir = Path(__file__).parent / "www"
@@ -54,12 +55,15 @@ app_ui = ui.page_fillable(
 def server(input, output, session):
     # will need to eventually replace with the matlab stuff
     @reactive.Calc
+    @reactive.event(input.submit)
     def pathToMathlab():
-        while type(input.inputImage) != 'NoneType':
-            path = input.inputImage()[0].get("datapath")
-            return path
-        else:
-            return "not done yet"
+        path = input.inputImage()[0].get("datapath")        
+        dict = {}
+        dict.update({"path": path})
+        dict.update({"export": "static\images"})
+
+        process(dict)
+    
     
     @output
     @render.text
