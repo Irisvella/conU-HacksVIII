@@ -45,13 +45,3 @@ def process(data):
         logging.warning("Something went wrong in image export process from matlab")
         return False
     return False
-
-
-if __name__ == "__main__":
-    try:
-        process(data=sys.argv[1])
-    except IndexError:
-         # TODO: remove hardcode value and take sys.argv[0] of webapp input temp image
-        data = {"path": "/home/kp/Downloads/hyrdrophilic.jpeg",
-                "export": "/home/kp/Downloads/test.jpeg"}
-        process(data)
