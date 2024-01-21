@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+    <title>Sorted Images</title>
+    <style>
+        body {
+            background-color: #f5f5dc; /* Cream color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+        .image-container {
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        input[type="button"], input[type="submit"], button {
+            background-color: white;
+            border: none;
+            border-radius: 50px;
+            color: black;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        {% for question, answer in sorted_pairs %}
+            <img src="{{ question }}" alt="Question Image" class="images" style="display: block; margin-left: auto; margin-right:auto;">
+            <img src="{{ answer }}" alt="Answer Image" class="images" style="display: block; margin-left: auto; margin-right:auto;">
+        {% endfor %}
+    </div>
+
+    <div class="button-container">
+        <button onclick="plusSlides(-1)">Previous</button>
+        <button onclick="plusSlides(1)">Next</button>
+        <input type="button" value="Upload more images" onclick="window.location.href='/';">
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        showSlides(slideIndex);
+
+        // Next/previous controls
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("images");
+            if (n >= slides.length) {slideIndex = 0}
+            if (n < 0) {slideIndex = slides.length - 1}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[slideIndex].style.display = "block";
+        }
+    </script>
+</body>
+</html>
