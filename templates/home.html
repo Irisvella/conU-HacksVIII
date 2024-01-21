@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Website</title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            height: 100vh; /* Full height of the viewport */
+        }
+        
+        #menu {
+            flex-direction: column;
+            background-color: #0a51e9e3;
+            padding: 20px;
+            width: 200px; /* Width of the menu */
+            height: 100%; /* Full height */
+        }
+        
+        #menu button {
+            display: block;
+            margin: 10px 0; /* Spacing between buttons */
+            padding: 10px;
+            width: 100%; /* Full width */
+            cursor: pointer;
+        }
+
+        #content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="menu">
+        <img src="weird.png" alt="Logo" style="width: 100px; height: auto;">
+        <button id="selectImage" padding: 200px
+        width: 200px  Width of the menu 
+        height: 100% >Select Image</button>
+        <button id="submit">Submit</button>
+    </div>
+    <div id="content">
+        <!-- Content goes here -->
+    </div>
+
+    <script>
+        document.getElementById('selectImage').addEventListener('click', function() {
+            let input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = e => { 
+                // getting a hold of the file reference
+                let file = e.target.files[0]; 
+
+                // TODO: Handle the file (upload or preview)
+            }
+            input.click();
+        });
+
+        document.getElementById('submit').addEventListener('click', function() {
+            // TODO: Implement the submit functionality
+            alert('Submit functionality to be implemented');
+        });
+    </script>
+</body>
+</html>
