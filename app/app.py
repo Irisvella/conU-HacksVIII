@@ -2,6 +2,7 @@ from shiny import App, render, ui, reactive
 import asyncio
 from pathlib import Path
 from engine import process
+from shiny.types import ImgData
 
 # set image directory
 www_dir = Path(__file__).parent / "www"
@@ -18,7 +19,7 @@ app_ui = ui.page_fillable(
                         ui.card({"style": "background-color: #c1c6fc"},
                             ui.row(
                                 ui.column(12, ui.card(
-                                    ui.img(src="logo.png", )
+                                    ui.output_image("logo", width='100%')
                                 )),
                                 ui.column(12, ui.card(
                                     # description or instructions
@@ -40,7 +41,8 @@ app_ui = ui.page_fillable(
                     ),
                     ui.column(9,{"style": "background-color: #8da1b9"},
                               ui.card(ui.card(
-                                        ui.output_text_verbatim("printout", placeholder=True))
+                                        ui.output_image("display", height='500px'),
+                                        ui.input_action_button("toggle", "Flip!"),
                                       )
                                       
                               )
@@ -49,7 +51,7 @@ app_ui = ui.page_fillable(
             )
         )
     )
-)
+))
 
 
 def server(input, output, session):
@@ -63,9 +65,27 @@ def server(input, output, session):
         dict.update({"export": "static\images"})
 
         process(dict)
+
+    x = reactive.Value("unmasked.png")
+    @reactive.Effect
+    @reactive.event(input.toggle)
+    def _():
+        x.set("masked.png")
     
     
     @output
+
+    @render.image
+    def logo():
+        img: ImgData = {"src": str(dir /"logo.png")}
+        return img
+    
+    @render.image
+    @reactive.calc
+    def display():
+        img: ImgData = {"src": str(dir /x())}
+        return img
+
     @render.text
     @reactive.event(input.submit)
     async def printout():
