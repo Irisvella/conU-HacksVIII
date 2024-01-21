@@ -7,7 +7,7 @@ from engine import process
 www_dir = Path(__file__).parent / "www"
 
 app_ui = ui.page_fillable(
-    {"style": "background-color: rgba(0, 128, 255, 0.1)"},
+    {"style": "background-color: #ef959c"},
     ui.row(
         ui.column(12,
             # outer perimiter
@@ -38,7 +38,7 @@ app_ui = ui.page_fillable(
                             )
                         )
                     ),
-                    ui.column(9,
+                    ui.column(9,{"style": "background-color: #8da1b9"},
                               ui.card(ui.card(
                                         ui.output_text_verbatim("printout", placeholder=True))
                                       )
