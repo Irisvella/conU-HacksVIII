@@ -25,7 +25,7 @@ def process(data):
     core = matlab.engine.start_matlab()
     
     # Use detectTextCraft to create bounding boxes around extracted text only
-    matLabSource = """
+    mat_lab_source = """
     I = imread("{path}")
     boundryBox = detectTextCRAFT(I)
     Iout = insertShape(I,"filled-rectangle", boundryBox, LineWidth=3, ShapeColor="black", Opacity=1)
@@ -38,14 +38,13 @@ def process(data):
     """.format(path=data["path"], export=data["export"])
 
     # Send multiline string commands to the core engine to be evaluated
-    core.eval(matLabSource, nargout=0)
+    core.eval(mat_lab_source, nargout=0)
     # Check if export created modified Q&A files
     # TODO: Add multiple files functionality
-    if os.path.exists(data["export"]):
-        return True
-    else:
+    if not os.path.exists(data["export"]):
         logging.warning("Something went wrong in image export process from matlab")
-        return False 
+        return False
+    return False 
 
 
 if __name__ == "__main__":
