@@ -1,7 +1,6 @@
 from shiny import App, render, ui, reactive
 import asyncio
 from pathlib import Path
-from engine import process
 from shiny.types import ImgData
 
 # set image directory
@@ -16,15 +15,15 @@ app_ui = ui.page_fillable(
                 ui.row(
                     ui.column(3, 
                         # navigation bar
-                        ui.card({"style": "background-color: #c1c6fc"},
+                        ui.card({"style": "background-color: #ffe787"},
                             ui.row(
                                 ui.column(12, ui.card(
-                                    ui.output_image("logo", width='100%')
+                                    ui.img(src="logo1.png")
                                 )),
                                 ui.column(12, ui.card(
                                     # description or instructions
                                     ui.markdown("""
-                                                <h4>Make memorizing diagrams or maps a breeze!</h4>
+                                                <h4>Make memorizing diagrams a breeze!</h4>
                                                 
                                                 <h6>Simply upload an image in .png, .jpeg, or .jpg format and start quizzing yourself</h6>
                                                 """),
@@ -39,10 +38,21 @@ app_ui = ui.page_fillable(
                             )
                         )
                     ),
-                    ui.column(9,{"style": "background-color: #8da1b9"},
-                              ui.card(ui.card(
-                                        ui.output_image("display", height='500px'),
-                                        ui.input_action_button("toggle", "Flip!"),
+                    ui.column(9,
+                              ui.card({"style": "background-color: #8da1b9"},
+                                  ui.card(
+                                        ui.img(src="masked.png", width='500px'),
+                                        ui.row(
+                                            ui.column(3,
+                                                      ui.card(ui.input_action_button("previous", "Previous"))),
+                                            ui.column(6,
+                                                      ui.card(ui.input_action_button("toggle", "Flip!"))),
+                                            ui.column(3,
+                                                      ui.card(ui.input_action_button("next", "Next"))),
+                                        ),
+                                        
+                                        
+                                        
                                       )
                                       
                               )
@@ -56,15 +66,15 @@ app_ui = ui.page_fillable(
 
 def server(input, output, session):
     # will need to eventually replace with the matlab stuff
-    @reactive.Calc
-    @reactive.event(input.submit)
-    def pathToMathlab():
-        path = input.inputImage()[0].get("datapath")        
-        dict = {}
-        dict.update({"path": path})
-        dict.update({"export": "static\images"})
+    # @reactive.Calc
+    # @reactive.event(input.submit)
+    # def pathToMathlab():
+    #     path = input.inputImage()[0].get("datapath")        
+    #     dict = {}
+    #     dict.update({"path": path})
+    #     dict.update({"export": "static\images"})
 
-        process(dict)
+    #     process(dict)
 
     x = reactive.Value("unmasked.png")
     @reactive.Effect
@@ -75,16 +85,16 @@ def server(input, output, session):
     
     @output
 
-    @render.image
-    def logo():
-        img: ImgData = {"src": str(dir /"logo.png")}
-        return img
+    # @render.image
+    # def logo():
+    #     img: ImgData = {"src": str(dir /"logo.png")}
+    #     return img
     
-    @render.image
-    @reactive.calc
-    def display():
-        img: ImgData = {"src": str(dir /x())}
-        return img
+    # @render.image
+    # @reactive.calc
+    # def display():
+    #     img: ImgData = {"src": str(dir /x())}
+    #     return img
 
     @render.text
     @reactive.event(input.submit)
